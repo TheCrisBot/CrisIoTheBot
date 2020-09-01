@@ -121,9 +121,11 @@ router.param('id', function(req, res, next, id){
 
 /** Server index page */
 router.get("/", function(req, res, next) {
-	req.on('data', function(res){
-		console.log(res)
-	});
+	req.log.info('something');
+	
+	// req.on('data', function(res){
+	// 	console.log(res)
+	// });
 	
 	// request.get("http://localhost/christianaugustyn/images/UmVRFlQVwwy.png")
 	// .then(function(body){

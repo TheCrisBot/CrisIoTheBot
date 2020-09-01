@@ -532,7 +532,7 @@
 			"file": "server/app.js",
 			"settings":
 			{
-				"buffer_size": 3636,
+				"buffer_size": 3631,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -541,16 +541,8 @@
 			"file": "server/routes/api.js",
 			"settings":
 			{
-				"buffer_size": 5888,
+				"buffer_size": 5927,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "server/routes/pomsox-api.js",
-			"settings":
-			{
-				"buffer_size": 2941,
 				"line_ending": "Windows"
 			}
 		},
@@ -656,11 +648,19 @@
 	"expanded_folders":
 	[
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/crisbot",
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/crisbot/server",
-		"/C/Users/Christian AUGUSTYN/WebstormProjects/crisbot/server/routes"
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/crisbot/server"
 	],
 	"file_history":
 	[
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/crisbot/server/index.js",
+		"/C/Users/Christian AUGUSTYN/AppData/Roaming/npm/node_modules/@vue/cli/node_modules/@vue/cli-ui/src/mixins/OnGrid.js",
+		"/C/Users/Christian AUGUSTYN/AppData/Roaming/npm/node_modules/@vue/cli/node_modules/@vue/cli-ui/src/components/view/ViewNavButton.vue",
+		"/C/Users/Christian AUGUSTYN/AppData/Roaming/npm/node_modules/@vue/cli/node_modules/@vue/cli-ui/src/components/app/AppLoading.vue",
+		"/C/Users/Christian AUGUSTYN/AppData/Roaming/npm/node_modules/@vue/cli/node_modules/@vue/cli-ui/src/util/image.js",
+		"/C/Users/Christian AUGUSTYN/AppData/Roaming/npm/node_modules/@vue/cli/node_modules/@vue/cli-ui/src/main.js",
+		"/C/Users/Christian AUGUSTYN/AppData/Roaming/npm/node_modules/@vue/cli/node_modules/vue-cli-plugin-apollo/generator/templates/vue-apollo/examples/src/components/ApolloExample.vue",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/chat/chatme-mobile/node_modules/@vue/cli-plugin-router/generator/template/src/App.vue",
+		"/C/Users/Christian AUGUSTYN/WebstormProjects/chat/chatme-mobile/node_modules/@vue/cli-plugin-router/generator/template/src/views/About.vue",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/crisbot/server/lib/database.js",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/crisbot/server/config/index.js",
 		"/C/Users/Christian AUGUSTYN/WebstormProjects/crisbot/server/config/dbLayer/mongodb.js",
@@ -779,16 +779,7 @@
 		"/C/Users/Wantok/WebstormProjects/crisbot/lib/response.js",
 		"/C/Users/Wantok/WebstormProjects/crisbot/lib/handlers.js",
 		"/C/Users/Wantok/WebstormProjects/crisbot/lib/randomWords/fiveLetterFrequency.csv",
-		"/C/Users/Wantok/WebstormProjects/crisbot/lib/randomWords/twoLetterFrequency.csv",
-		"/F/Android/data/com.google.android.music/files/._playmusicid",
-		"/C/Users/Wantok/WebstormProjects/crisbot/views/geometry.html",
-		"/C/Users/Wantok/WebstormProjects/crisbot/client/js/lib/Circle.js",
-		"/E/Lucent360/Using Node.js to Interact with Facebook's Graph API_files/ghost-url.min.js.download",
-		"/C/Users/Wantok/WebstormProjects/crisbot/client/js/physics/math_functions.js",
-		"/C/RailsInstaller/Git/git-bash.bat",
-		"/C/Users/Wantok/WebstormProjects/crisbot/bot.js",
-		"/C/xampp/htdocs/christianaugustyn/public/libs/md5.js",
-		"/C/xampp/htdocs/christianaugustyn/public/libs/md52.js"
+		"/C/Users/Wantok/WebstormProjects/crisbot/lib/randomWords/twoLetterFrequency.csv"
 	],
 	"find":
 	{
@@ -953,7 +944,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 4,
 			"sheets":
 			[
 				{
@@ -969,8 +960,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								490,
+								490
 							]
 						],
 						"settings":
@@ -981,7 +972,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -990,28 +981,28 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3636,
+						"buffer_size": 3631,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								3636
+								655,
+								655
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
+							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 244.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
@@ -1020,44 +1011,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5888,
+						"buffer_size": 5927,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5691,
-								5691
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2558.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "server/routes/pomsox-api.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 2941,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1856,
-								2924
+								682,
+								682
 							]
 						],
 						"settings":
@@ -1073,7 +1035,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 3,
 					"file": "server/routes/twitter-api.js",
 					"semi_transient": false,
 					"settings":
@@ -1102,7 +1064,7 @@
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 4,
 					"file": "server/routes/bot.js",
 					"semi_transient": false,
 					"settings":
@@ -1114,8 +1076,8 @@
 						"selection":
 						[
 							[
-								4082,
-								4082
+								1452,
+								1452
 							]
 						],
 						"settings":
@@ -1125,14 +1087,14 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 798.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 5,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1143,8 +1105,8 @@
 						"selection":
 						[
 							[
-								313,
-								313
+								459,
+								459
 							]
 						],
 						"settings":
@@ -1158,7 +1120,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -1202,6 +1164,14 @@
 	"output.find_results":
 	{
 		"height": 109.0
+	},
+	"output.stino_build_panel":
+	{
+		"height": 0.0
+	},
+	"output.stino_panel":
+	{
+		"height": 0.0
 	},
 	"output.unsaved_changes":
 	{

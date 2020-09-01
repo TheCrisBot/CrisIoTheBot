@@ -7,6 +7,7 @@ let FacebookStrategy = require('passport-facebook').Strategy;
 let fs = require('fs-extra');
 let path = require('path');
 let cors = require('cors');
+let pino = require('pino-http')();
 
 var dt = require('./lib/myfirstmodel');
 var middlewares = require('./lib/middlewares');
@@ -40,6 +41,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({
   verify: check_fb_signature
 }));
+app.use(pino);
 
 function check_fb_signature(req, res, buf) {
     console.log('Check facebook signature step.')
@@ -60,10 +62,6 @@ function check_fb_signature(req, res, buf) {
         }
     }
 }
-
-// app.configure(function(e){
-// 	return 1;
-// });
 
 // app.use(passport.initialize());
 // // app.use(passport.session());
@@ -108,7 +106,7 @@ app.use(middlewares.referrerHeader());
 // var page = fs.readFileSync(__dirname + '/index.html', 'utf8');
 
 app.use('/api', router);
-require('./routes/bot')(router);
 app.use('/api', require('./routes/api'));
+require('./routes/bot')(app);
 
 module.exports = app;
