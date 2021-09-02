@@ -21,8 +21,8 @@ module.exports = function(api) {
 
 		var i = [];
 		var options = {};
-		// var url = "http://www.pomsox.com.pg/data/";
-		var url = "http://localhost/christianaugustyn/ajax/";
+		var url = "http://www.pngx.com.pg/data/";
+		// var url = "http://localhost/christianaugustyn/ajax/";
 		Object.assign(options, {
 			"method": 'GET',
 			'json': true,

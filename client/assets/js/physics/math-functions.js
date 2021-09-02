@@ -329,3 +329,24 @@ inputs = [[1,1,1],[1,0,1],[0,1,1]];
 outputs = matrix([[1,1,0]])
 train(inputs, outputs, 10000);
 console.log(think(array([1,0,0])));
+
+
+function matrix() {
+	let m = [];
+
+	this.add = function(matrix1, matrix2) {
+		
+	}
+
+	this.subtract = function(matrix1, matrix2) {
+
+	}
+
+	this.multiply = function(matrix1, matrix2) {
+		
+	}
+
+	this.divide = function(matrix1, matrix2) {
+		
+	}
+}

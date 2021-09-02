@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Velocity</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/stylesheet.css">
+  <meta name="description" content="StuckWanYah lets you vote for your Facebook friends' hotness">
+  <link rel="favicon" type="icon" href="/favicon.ico">
+</head>
+<body>
+  <main id="main">
+    <h1>StuckWanYah</h1>
+    <h2>Velocity-Time Graph</h2>
+
+    <center>
+      <table width="500" align="center">
+        <tbody>
+          <tr>
+            <td>
+              <canvas id="myCanvas" width="600" height="100" style="border:1px solid #d3d3d3;">
+                Your browser does not support the HTML5 canvas tag.
+              </canvas>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div id="canvascontainer"></div>
+
+      <span class="speed">mps</span>
+      <input type="range" name="speed" step="0.1" onchange="onSpeedChange(this)">
+  
+      <!-- <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.1)" ontouchstart="moveup()">ACCELERATE</button> -->
+      <input type="number" name="velocity" value="20" size="5"> mps 
+      <button id="play">play</button>
+  
+      <br/><br/><br/><br/>
+
+      <div class="footer">
+        <div class="container">
+          <ul>
+            <li><a href="/" onclick="sh('home')">Home</a></li>
+            <!--li><a target="_blank" href="https://www.messenger.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('messengerbot')">Messenger Bot</a></li-->
+            <li><a target="_blank" href="https://apps.facebook.com/Stuck-Wan-Yah-508382589546607/" onclick="sh('facebookpage')">StuckWanYah App</a></li>
+            <li><a href="/about.html" onclick="sh('about')">About</a></li>
+            <li><a href="/disclaimer.html" onclick="sh('disclaimer')">Disclaimer</a></li>
+            <li><a href="/submit.html" onclick="sh('submit')">Submit</a></li>
+            <li><a href="/rankings.html" onclick="sh('rankings')">Rankings</a></li>
+            <li><a href="/friends.html" onclick="sh('friends')">Friends</a></li>
+          </ul>
+          <p class="copyright"><a href="https://www.facebook.com/christianjfa" class="copyright">a Christian J.F Augustyn production</a></p>
+          <p class="copyright"><span>StuckWanYah &copy; 2018 · Made in PNG for fun.</span></p>
+        </div>
+      </div>
+    </center>
+  </main>
+
+<script type="text/javascript">
+/*
+var myGamePiece;
+var myObstacles = [
+];
+var myScore;
+function startGame() {
+  myGamePiece = new component(10, 10, 'red', 10, 120);
+  myScore = new component('60px', 'Consolas', 'black', 20, 40, 'text');
+  myGameArea.start();
+}
+var myGameArea = {
+  canvas: document.createElement('canvas'),
+  start: function () {
+    this.canvas.width = 480;
+    this.canvas.height = 270;
+    this.context = this.canvas.getContext('2d');
+    document.getElementById('canvascontainer').appendChild(this.canvas);
+    this.frameNo = 0;
+    this.interval = setInterval(updateGameArea, 20);
+  },
+  clear: function () {
+    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  },
+  stop: function () {
+      clearInterval(this.interval);
+  }
+}
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {
+        return true;
+    }
+    return false;
+}
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    if (type == 'image') {
+        this.image = new Image();
+        this.image.src = color;
+    }
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.gravity = 0.05;
+    this.gravitySpeed = 0;
+    this.update = function () {
+        ctx = myGameArea.context;
+        if (type == 'text') {
+            ctx.font = this.width + '' + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.crashWith = function (otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+    this.newPos = function () {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+        this.hitBottom();
+    }
+    this.hitBottom = function () {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {
+            this.y = rockbottom;
+            this.gravitySpeed = 0;
+        }
+    }
+}
+function updateGameArea() {
+    var x,
+    height,
+    gap,
+    minHeight,
+    maxHeight,
+    minGap,
+    maxGap;
+    for (var i = 0; i < myObstacles.length; i += 1) {
+        if (myGamePiece.crashWith(myObstacles[i])) {
+            myGameArea.stop();
+            return;
+        }
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+        x = myGameArea.canvas.width;
+        minHeight = 20;
+        maxHeight = 200;
+        height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+        minGap = 50;
+        maxGap = 200;
+        gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+        myObstacles.push(new component(10, height, 'green', x, 0));
+        myObstacles.push(new component(10, x - height - gap, 'green', x, height + gap));
+    }
+    myGamePiece.speedX = 0;
+    myGamePiece.speedY = 0;
+    for (var i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].x += - 1;
+        myObstacles[i].update();
+    }
+    myScore.text = 'Distance/Displacement: ' + (myGamePiece.gravitySpeed * myGameArea.frameNo).toFixed(2) + ' m'
+    + ' Time: ' + myGameArea.frameNo + ' secs'
+    + ' Speed/Velocity: ' + myGamePiece.gravitySpeed.toFixed(2) + ' mps';
+    myScore.update();
+    myGamePiece.x += myGamePiece.speedX;
+    myGamePiece.y += myGamePiece.speedY;
+    myGamePiece.newPos();
+    myGamePiece.update();
+}
+function accelerate(n) {
+    myGamePiece.gravity = n;
+}
+*/
+
+var Slope = function (graph) {
+  this.graph = graph;
+  this.x = 100;
+  this.y = 100;
+};
+Slope.prototype.update = function () {
+  this.x += 1;
+  this.y += 1;
+  this.ctx = this.graph.context;
+};
+Slope.prototype.draw = function () {
+  this.graph.drawRectangle('#f00', this.x, this.y, 10, 10);
+};
+
+var Graph = function () {
+  this.fps = 60;
+  this.canvas = document.getElementById("myCanvas");
+  this.canvas.width = 320;
+  this.canvas.height = 180;
+  this.context = this.canvas.getContext('2d');
+  this.context_width = this.canvas.width;
+  this.context_height = this.canvas.height;
+  this.slope = new Slope(this);
+  var graph = this;
+  var graphloop = setInterval(function () {
+    graph.updateAll();
+    graph.drawAll();
+  }, 1000 / this.fps);
+};
+Graph.prototype.updateAll = function () {
+  this.slope.update();
+};
+Graph.prototype.drawAll = function () {
+  this.drawRectangle('#ffffff', 0, 0, this.context_width, this.context_height);
+  this.slope.draw();
+};
+Graph.prototype.drawRectangle = function (color, x, y, width, height) {
+  this.context.fillStyle = color;
+  this.context.fillRect(x, y, width, height);
+};
+Graph.prototype.drawLine = function(x, y) {
+  this.drawRectangle('red', x, y, 1, 1);
+  this.slope.draw();
+};
+Graph.prototype.drawCurve = function(x, y) {
+  this.drawRectangle('red', x, y, 1, 1);
+  this.slope.draw();
+};
+
+// new Graph();
+
+
+
+// var c = document.getElementById("myCanvas");
+// var ctx = c.getContext("2d");
+
+// // Create gradient
+// var grd = ctx.createRadialGradient(75,50,5,90,60,100);
+// grd.addColorStop(0,"red");
+// grd.addColorStop(1,"white");
+
+// // Fill with gradient
+// ctx.fillStyle = grd;
+// ctx.fillRect(10,10,150,80);
+
+
+
+var x = 0;
+var fps = 60;
+
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+var onSpeedChange = function(e) {
+  var speed = e.value;
+  console.log(speed);
+  x += speed;
+}
+
+var speed = x/60;
+
+setInterval(function() {
+  ctx.clearRect(0, 0, c.width, c.width);
+  ctx.fillStyle = 'red';
+  ctx.fillRect(speed, 40, 10, 10);
+  x++;
+  console.log(x)
+
+}, 1000 / fps);
+
+function startGame() {
+  myGameArea = new gamearea();
+}
+var x = 0, 
+    y = 0;
+function gamearea() {
+  this.canvas = document.getElementById("myCanvas");
+  // this.canvas = document.createElement('myCanvas');
+  // this.canvas.width = 320;
+  // this.canvas.height = 180;
+  // document.getElementById('canvascontainer').appendChild(this.canvas);
+  this.context = this.canvas.getContext('2d');
+  this.context.scale(1.4, 1.4);
+  var v = document.getElementById('play');
+  var i;
+  v.addEventListener('play', function () {
+    i = window.setInterval(function () {
+      myGameArea.context.clearRect(0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+      x++;
+      var ctx = document.getElementsByTagName('canvas') [0].getContext('2d');
+      ctx.drawImage(v, 5, 5, 260, 125);
+      ctx.strokeStyle = '#000000';
+      ctx.font = '20px Georgia';
+      if (x > 0) {
+        ctx.strokeText('You can do anything', 10, 30);
+      }
+      if (x > 50) {
+        y += 0.5;
+        ctx.strokeText('on the canvas', 10, 50 + y);
+      }
+      if (x > 250) {
+        clearInterval(i);
+        var ctx = document.getElementsByTagName('canvas') [0].getContext('2d');
+        ctx.font = '20px Georgia';
+        ctx.strokeText('Try it!', 140, 100);
+      }
+    }, 20);
+  }, false);
+  v.addEventListener('pause', function () {
+    window.clearInterval(i);
+  }, false);
+  v.addEventListener('ended', function () {
+  }, false);
+}
+// startGame();
+
+</script>
+</body>
+</html>

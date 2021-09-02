@@ -5,30 +5,31 @@
  */
 // Dependencies
 const restful = require('node-restful');
-const passport = require('passport');
-const FacebookTokenStrategy = require('passport-facebook-token');
-const FacebookStrategy = require('passport-facebook').Strategy;
+// const passport = require('passport');
+// const FacebookTokenStrategy = require('passport-facebook-token');
+// const FacebookStrategy = require('passport-facebook').Strategy;
 const request = require('request-promise');
 module.exports = router = require('express').Router();
+const path = require('path');
 
 // Models
-let Movie = restful.model('movie');
-let Quote = restful.model('quote');
-let PhoneTracker = restful.model('phonetracker');
+// let Movie = restful.model('movie');
+// let Quote = restful.model('quote');
+// let PhoneTracker = restful.model('phonetracker');
 
-Movie.methods(['get', 'post', 'put', 'delete']);
-Movie.register(router, '/movies');
+// Movie.methods(['get', 'post', 'put', 'delete']);
+// Movie.register(router, '/movies');
 
-Quote.methods(['get', 'put', 'post', 'delete']);
-Quote.register(router, '/quotes');
+// Quote.methods(['get', 'put', 'post', 'delete']);
+// Quote.register(router, '/quotes');
 
-require("./digicel-api")(router);
-require("./telikom-api")(router);
-require("./bmobile-api")(router);
+// require("./digicel-api")(router);
+// require("./telikom-api")(router);
+// require("./bmobile-api")(router);
 require('./pomsox-api')(router);
-require('./oauth')(router);
-require("./facebook-api")(router);
-require('./instagram-api')(router);
+// require('./oauth')(router);
+// require("./facebook-api")(router);
+// require('./instagram-api')(router);
 // require('./twitter-api')(router);
 require('./weather-api')(router);
 // require('./imdb-api')(router);
@@ -39,8 +40,8 @@ require('./weather-api')(router);
 // require('./spotify-api')(router);
 // require('./soundcloud-api')(router);
 // require('./radio-api')(router);
-require('./mail-api')(router);
-require('../lib/parser')(router);
+// require('./mail-api')(router);
+// require('../lib/parser')(router);
 
 // IoT API 
 // require('./iot')(router);
@@ -121,7 +122,7 @@ router.param('id', function(req, res, next, id){
 
 /** Server index page */
 router.get("/", function(req, res, next) {
-	req.log.info('something');
+	res.send('something');
 	
 	// req.on('data', function(res){
 	// 	console.log(res)
@@ -134,51 +135,51 @@ router.get("/", function(req, res, next) {
 	// });
 
 	// the order of this list is significant; should be server preferred order
-	switch (req.accepts(['json', 'html'])) {
-		case 'json':
-			res.setHeader('Content-Type', 'application/json');
-			res.write('{"hello":"world!"}');
-			break;
-		case 'html':
-			res.setHeader('Content-Type', 'text/html');
-			res.writeHead(200, {"Content-Type": "text/html"});
-			res.write('<b>hello, world!</b>');
-			res.write("<br>This is one deadend endpoint. try something like /api/v1/weather");
-			res.write("Deployed at " + new Date());
-			break;
-		default:
-			// the fallback is text/plain, so no need to specify it above
-			res.setHeader('Content-Type', 'text/plain');
-			res.write('hello, world!');
-			break
-	}
-	res.end()
+	// switch (req.accepts(['json', 'html'])) {
+	// 	case 'json':
+	// 		res.setHeader('Content-Type', 'application/json');
+	// 		res.write('{"hello":"world!"}');
+	// 		break;
+	// 	case 'html':
+	// 		res.setHeader('Content-Type', 'text/html');
+	// 		res.writeHead(200, {"Content-Type": "text/html"});
+	// 		res.write('<b>hello, world!</b>');
+	// 		res.write("<br>This is one deadend endpoint. try something like /api/v1/weather");
+	// 		res.write("Deployed at " + new Date());
+	// 		break;
+	// 	default:
+	// 		// the fallback is text/plain, so no need to specify it above
+	// 		res.setHeader('Content-Type', 'text/plain');
+	// 		res.write('hello, world!');
+	// 		break
+	// }
+	// res.end()
 });
 
 // router.get("/maps");
 
-PhoneTracker.methods(['post','delete']);
-PhoneTracker.register(router, '/tracker');
+// PhoneTracker.methods(['post','delete']);
+// PhoneTracker.register(router, '/tracker');
 
-router.get('/tracker', function(req, res) {
-	let { phone, imei, email } = req.query;
+// router.get('/tracker', function(req, res) {
+// 	let { phone, imei, email } = req.query;
 	
-	let query = PhoneTracker.find({});
-	if (phone) {
-		query.where({'number': {$regex: phone}});
-	}
-	if (imei) {
-		query.where({'imei': imei});
-	}
-	if (email) {
-		query.where({'email': {$regex: email}});
-	}
-	query.sort('-date_created');
-	query.select('number imei email coords date_created')
-	query.exec().then(function(result) {
-		res.json(result);
-	});
-})
+// 	let query = PhoneTracker.find({});
+// 	if (phone) {
+// 		query.where({'number': {$regex: phone}});
+// 	}
+// 	if (imei) {
+// 		query.where({'imei': imei});
+// 	}
+// 	if (email) {
+// 		query.where({'email': {$regex: email}});
+// 	}
+// 	query.sort('-date_created');
+// 	query.select('number imei email coords date_created')
+// 	query.exec().then(function(result) {
+// 		res.json(result);
+// 	});
+// })
 
 router.get('/test', function (req, res) {
 	console.log(req)

@@ -1,0 +1,306 @@
+<html>
+<head>
+  <title></title>
+  <style>
+    body {
+  background: #c3cccc;
+}
+.container {
+  padding: 30px;
+  width: 460px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+.container p {
+  font-size: 25px;
+  font-weight: lighter;
+  font-family: "sans";
+  text-align: center;
+}
+.line {
+  float: left;
+  display: inline;
+  list-style: none;
+}
+.line li {
+  float: left;
+  border: 1px solid grey;
+  border-right: 0px none;
+  padding: 20px;
+  cursor: pointer;
+}
+.line li:last-child {
+  border-right: 1px solid grey;
+}
+.line li {
+  background: #343436;
+  color: white;
+  transition: 500ms;
+}
+.line li:hover {
+  background: grey;
+  transition: 500ms;
+  border: 1px solid black;
+}
+.bb {
+  border: 1px solid lightgrey;
+  width: 80px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 200ms;
+}
+.bb:hover {
+  background: grey;
+  color: white;
+}
+.drawFrom {
+  position: relative;
+  background: red !important;
+  transition: 150ms;
+}
+.drawFrom:before {
+  content: "";
+  position: absolute;
+  top: -23px;
+  left: 23px;
+  border: 1px solid red;
+  height: 25px;
+  width: 0px;
+  padding: 0px;
+}
+.drawFrom:after {
+  content: "";
+  position: absolute;
+  border: 1px dashed red;
+  top: -25px;
+  left: 23px;
+  width: var(--width);
+  height: 0px;
+  transition: 150ms;
+}
+.drawTo {
+  position: relative;
+  background: red !important;
+}
+.drawTo:before {
+  content: "";
+  border: 1px solid red;
+  position: absolute;
+  top: -25px;
+  left: 25px;
+  height: 25px;
+}
+.match,
+.match:before,
+.match:after {
+  background: green !important;
+  border: 1px solid green;
+  transition: 100ms;
+}
+.credit{
+  padding:30px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:center;
+}
+.credit a{
+  color:grey;
+  text-shadow:0px 0px 20px white;
+  text-decoration:none;
+  border-bottom:1px dotted grey;
+  padding-bottom:10px;
+  font-size:20px;
+}
+  </style>
+  <script>
+    /** ******************** **
+ **   Helper Functions   **
+ ** ******************** **/
+// shuffle
+function shuffleList(list) {
+  var length = listToArr(list).length;
+  for (var i = 0; i <= length; i++) {
+    var tempIndex = Math.round(Math.random() * length);
+    var tempItem = list.item(i);
+    var tempItem2 = list.item(tempIndex);
+    swap(tempItem, tempItem2);
+  }
+}
+// swap
+function swap(element1, element2) {
+  if (element1 != null && element2 != null) {
+    var id1 = parseInt(element1.textContent);
+    var id2 = parseInt(element2.textContent);
+    element2.setAttribute("data-block", id1);
+    element2.innerHTML = id1;
+    element1.setAttribute("data-block", id2);
+    element1.innerHTML = id2;
+    removeClass(element1, "match");
+    removeClass(element2, "match");
+  }
+}
+// convert list to array
+function listToArr(elements) {
+  let response = [];
+  elements.forEach(function(element, key) {
+    response.push(parseInt(element.textContent));
+  });
+  return response;
+}
+// remove classes
+function removeClasses(list, cls) {
+  list.forEach(function(element, key) {
+    element.classList.remove(cls);
+  });
+}
+// remove class
+function removeClass(element, cls) {
+  if (element != null) {
+    element.classList.remove(cls);
+  }
+}
+// add class
+function addClass(element, cls) {
+  if (element != null) {
+    element.classList.add(cls);
+  }
+}
+// some nice lines
+function drawLine(currentLocation, ToLocation) {
+  if (currentLocation >= elements.length) {
+    currentLocation = elements.length;
+  }
+  if (ToLocation >= elements.length) {
+    ToLocation = elements.length - 1;
+  }
+  var calc = parseInt((ToLocation - currentLocation + 1) * length) + "px";
+  if (document.querySelector(".drawFrom") != null) {
+    document.querySelector(".drawFrom").style.setProperty("--width", calc);
+  } else {
+    removeClasses(list, "drawTo");
+  }
+}
+
+/** **************************** **
+ **  Danger zone, Watch out!     **
+ ** **************************** **/
+shuffleList(document.querySelectorAll("li"));
+var list     = document.querySelectorAll("li");
+var elements = listToArr(list);
+var index    = 0;
+var inner    = 1;
+var length   = 49;
+var cMax     = 0;
+var cMin     = null;
+var dynamicIndex = 0;
+
+function UpperProcess(list) {
+  if (index <= elements.length) {
+    removeClasses(list, "drawFrom");
+    addClass(list[index], "drawFrom");
+    cMax = parseInt(list[index].textContent);
+    InnerProcess(list);
+    if (document.querySelector(".drawFrom") != null) {
+      document.querySelector(".drawFrom").style.setProperty("--width", "0px");
+    } else {
+      removeClasses(list, "drawTo");
+      document.querySelector(".sSort").removeAttribute("disabled");
+      document.querySelector(".sSort").innerHTML = "Sort";
+    }
+    if (index == elements.length - 1) {
+      document.querySelector(".drawFrom").style.setProperty("--width", "0px");
+      removeClasses(list, "drawTo");
+      removeClasses(list, "drawFrom");
+      document.querySelector(".sSort").removeAttribute("disabled");
+      document.querySelector(".sSort").innerHTML = "Sort";
+    }
+    index++;
+  } else {
+    return false;
+  }
+}
+function InnerProcess(list) {
+  if (index >= elements.length && inner >= elements.length) {
+    return false;
+  }
+  drawLine(index, inner);
+  var innerInterv = setInterval(function() {
+    if (inner < elements.length) {
+      drawLine(index, inner);
+      removeClasses(list, "drawTo");
+      addClass(list[inner], "drawTo");
+      if (cMin == null) {
+        cMin = parseInt(list[inner].textContent);
+      }
+      if (parseInt(list[inner].textContent) < cMin) {
+        cMin = parseInt(list[inner].textContent);
+      }
+      inner++;
+    } else {
+      inner = index + 1;
+      clearInterval(innerInterv);
+      if (index < elements.length) {
+        var tempMax = document.querySelectorAll(".block").item(dynamicIndex);
+        var tempMin = document.querySelector(
+          ".block[data-block='" + cMin + "']"
+        );
+        cMin = null;
+        dynamicIndex++;
+        if (parseInt(tempMax.textContent) > parseInt(tempMin.textContent)) {
+          removeClasses(list, "drawTo");
+          removeClasses(list, "drawFrom");
+          addClass(tempMin, "match");
+          addClass(tempMax, "match");
+
+          setTimeout(swap, 250, tempMin, tempMax);
+        }
+        UpperProcess(list);
+      } else {
+        return false;
+      }
+    }
+  }, 700);
+}
+/** ************************* **
+ **   Roll, Cemara, Action!   **
+ ** ************************* **/
+document.querySelector(".sSort").addEventListener("click", function() {
+  inner = 1;
+  index = 0;
+  dynamicIndex = 0;
+  shuffleList(list);
+  UpperProcess(list);
+  this.setAttribute("disabled", "disabled");
+  this.innerHTML = "Sorting...";
+});
+
+/** ************************* **
+ **   Let me help you play!   **
+ ** ************************* **/
+setTimeout(function() {
+  document.querySelector(".sSort").click();
+}, 3000);
+  </script>
+</head>
+<body>
+  <div class='container'>
+  <p>Selection Sort: </p>
+  <ul class='line'>
+    <li data-block="3" class="block" data-width="">3</li>
+    <li data-block="2" class="block" data-width="">2</li>
+    <li data-block="1" class="block" data-width="">1</li>
+    <li data-block="4" class="block" data-width="">4</li>
+    <li data-block="6" class="block" data-width="">6</li>
+    <li data-block="5" class="block" data-width="">5</li>
+    <li data-block="8" class="block" data-width="">8</li>
+    <li data-block="7" class="block" data-width="">7</li>
+  </ul>
+  <br>
+  <button class='sSort bb'>Sort</button>
+</div>
+<div class='credit'>
+  <a href='https://twitter.com/iMultiThinker'>@iMultiThinker</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Guess My Height</title>
+	<style type="text/css">
+		body {
+			font-size: 46px;
+		}
+		input[type="number"] {
+			height: 43px;
+			width: 132px;
+			font-size: 48px;
+			line-height: 27px;
+		}
+	</style>
+</head>
+<body>
+	Father's height: <input type="number" name="fheight" value="0" onchange="calculateHeight()" step="0.1"> cm<br>
+	Mother's height: <input type="number" name="mheight" value="0" onchange="calculateHeight()" step="0.1"> cm<br>
+	Child's height: <input type="number" name="cheight" value="0"> cm
+	<script type="text/javascript">
+		function calculateHeight() {
+			let fHeight = document.getElementsByName('fheight')[0],
+				mHeight = document.getElementsByName('mheight')[0],
+				cHeight = document.getElementsByName('cheight')[0];
+
+			cHeight.value = parseFloat(2.5 + (parseFloat(fHeight.value) + parseFloat(mHeight.value)) / 2);
+			console.log(cHeight.value)
+		}
+	</script>
+</body>
+</html>

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 const http = require('http');
-const ip = require('ip');
+// const ip = require('ip');
 require("dotenv").config();
 
-var db = require("./lib/database");
+// var db = require("./lib/database");
 // var tunnel = require("./lib/tunnel");
 let app = require('./app');
 

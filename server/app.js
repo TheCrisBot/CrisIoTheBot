@@ -1,16 +1,16 @@
 let express = require("express");
 let bodyParser = require("body-parser");
-let passport = require('passport');
-let FacebookTokenStrategy = require('passport-facebook-token');
-let FacebookStrategy = require('passport-facebook').Strategy;
+// let passport = require('passport');
+// let FacebookTokenStrategy = require('passport-facebook-token');
+// let FacebookStrategy = require('passport-facebook').Strategy;
 // var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 let fs = require('fs-extra');
 let path = require('path');
 let cors = require('cors');
-let pino = require('pino-http')();
+// let pino = require('pino-http')();
 
 var dt = require('./lib/myfirstmodel');
-var middlewares = require('./lib/middlewares');
+// var middlewares = require('./lib/middlewares');
 // var xmlParser = require('./lib/parser');
 
 // Models
@@ -39,9 +39,9 @@ app.set('port', process.env.PORT || 3456);
 app.use(bodyParser.urlencoded({extended: true}));
 // Check Facebook Signature
 app.use(bodyParser.json({
-  verify: check_fb_signature
+  // verify: check_fb_signature
 }));
-app.use(pino);
+// app.use(pino);
 
 function check_fb_signature(req, res, buf) {
     console.log('Check facebook signature step.')
@@ -81,8 +81,8 @@ function check_fb_signature(req, res, buf) {
 // additional setup to allow CORS requests
 // app.use(middlewares.allowCrossDomain);
 // app.options('*', cors(middlewares.cors));
-app.use(cors(middlewares.cors));
-app.use(middlewares.referrerHeader());
+// app.use(cors(middlewares.cors));
+// app.use(middlewares.referrerHeader());
 // app.use(middlewares.isLoggedIn);
 
 // restrict access for visitors

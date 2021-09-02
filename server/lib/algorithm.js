@@ -717,12 +717,12 @@ function compareLists(newList, oldList) {
   }
 }
 
-try {
-  [break;]
-} catch (e) {
-  [break;]
-} [finally {
-}]
+// try {
+//   [break;]
+// } catch (e) {
+//   [break;]
+// } [finally {
+// }]
 
 function App() {}
 Object.defineProperty(App.prototype, 'count', {
