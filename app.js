@@ -7,7 +7,7 @@ let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 let fs = require('fs-extra');
 let path = require('path');
 let cors = require('cors');
-let pino = require('pino-http')();
+// let pino = require('pino-http')();
 let dt = require('./lib/myfirstmodel');
 let { check_fb_signature, allowCrossDomain, isLoggedIn } = require("./lib/middlewares");
 // let xmlParser = require('./lib/parser');
@@ -43,12 +43,12 @@ app.set('port', PORT);
 // app.use(express.static(path.join(__dirname, 'views')));
 // app.use('/images', express.static(path.join(__dirname, 'client/img')));
 
-app.use(bodyParser.urlencoded({extended: true}));
+// app.use(bodyParser.urlencoded({extended: true}));
 // Check Facebook Signature
 app.use(bodyParser.json({
   verify: check_fb_signature
 }));
-app.use(pino);
+// app.use(pino);
 
 // app.use(passport.initialize({userProperty: 'currentUser' }));
 // app.use(passport.session({ secret: 'keyboard cat' }));
@@ -67,11 +67,11 @@ app.use(pino);
 // });
 
 // additional setup to allow CORS requests
-app.use(allowCrossDomain);
+// app.use(allowCrossDomain);
 // app.options('*', cors(middlewares.cors));
-app.use(cors(cors));
+// app.use(cors(cors));
 // app.use(referrerHeader());
-app.use(isLoggedIn);
+// app.use(isLoggedIn);
 // restrict access for visitors
 // app.use(middlewares.auth);
 
@@ -99,6 +99,7 @@ app.use(isLoggedIn);
  */
 app.get("/", function(req, res) {
   // res.redirect('/api');
+  res.send("Working");
 });
 
 /**

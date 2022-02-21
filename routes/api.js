@@ -40,7 +40,8 @@ require('./weather-api')(router);
 // require('./radio-api')(router);
 require('./mail-api')(router);
 // require('./iot')(router);
-require('./sms-api')(router)
+require('./sms-api')(router);
+require('./zoom-bot-api')(router);
 
 // router.param('id', function(req, res, next, id){
   // User.find(id, function(err, user){
