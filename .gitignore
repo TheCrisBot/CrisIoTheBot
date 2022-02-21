@@ -1,8 +1,10 @@
-node_modules
-.idea
 .package-lock.json
 .env
-Cris.ioBot.sublime-project
-Cris.ioBot.sublime-workspace
+*.sublime-project
+*.sublime-workspace
+
+# Directories
+node_modules
+.idea
 lib/Cris
 views/physics
