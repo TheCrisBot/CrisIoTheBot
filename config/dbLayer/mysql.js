@@ -1,5 +1,7 @@
 let mysql = require('mysql');
 // let hl = require('handy-log');
+require("dotenv").config();
+
 let { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = process.env;
 
 let connection = mysql.createConnection({

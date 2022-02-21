@@ -5,8 +5,7 @@
 module.exports = {
 	// MongoDB connection options
 	mongo: {
-		uri: 'mongodb://chrisaugu:chatm3@ds061757.mongolab.com:61757/crisbotdb',
-		db:  process.env.MONGODB_URI
+		uri: process.env.MONGODB_ADDON_URI
 	},
 	mqtt: {
 		host: process.env.EMQTT_HOST || '127.0.0.1',

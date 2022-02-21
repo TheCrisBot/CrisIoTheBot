@@ -1,7 +1,6 @@
 // const bcrypt = require('bcrypt-nodejs');
 const config = require("../");
 const mongoose = require("mongoose");
-require("dotenv").config();
 
 var opts = {
 	useMongoClient: true,

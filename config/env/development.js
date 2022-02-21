@@ -1,4 +1,5 @@
 'use strict';
+require("dotenv").config();
 
 // Set the 'development' environment configuration object
 module.exports = {

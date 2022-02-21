@@ -2,7 +2,7 @@
   "name": "crisbot",
   "version": "0.0.1",
   "description": "Cris.io bot is my personal bot that attends to my facebook page. It also serves as arbitrary medium to my other webapps",
-  "main": "server.js",
+  "main": "node server.js",
   "directories": {
     "lib": "lib"
   },
