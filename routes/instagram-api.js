@@ -1,7 +1,5 @@
-"use strict";
-// let api = exports = module.exports = require('express').Router();
+let router = require('express').Router();
 
-module.exports = function(router) {
 const INSTAGRAM_API_URL = "https://api.instagram.com/v1/";
 var data = {};
 
@@ -55,5 +53,4 @@ router.post("/instagram/photos", function(req, res, next){
 	});
 });
 
-return router;
-};
+module.exports = router;

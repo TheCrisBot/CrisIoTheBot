@@ -1,66 +1,70 @@
-module.exports = function(app) {
-	const Database = require('../lib/database');
-	const connection = new Database("mysql");
-	app.get('/iot/devices', function(req, res, next){
+const router = require('express').Router();
+const Database = require('../lib/database');
+const connection = new Database("mysql");
 
-		connection.query('SELECT * FROM devices ORDER BY id', function(error, results, fields) {
-			if (error) throw new Error(error);
-			res.json(results);
-		})
-		
-		connection.end();
-	});
+router.get('/', function(req, res) {
+	res.send("hello");
+});
 
-	app.post('/iot/devices', function(req, res, next){
+router.get('/devices', function(req, res, next){
 
-		connection.query('SELECT * FROM devices ORDER BY id', function(error, results, fields) {
-			if (error) throw error;
-			res.json(results);
-		})
-		
-		connection.end();
-	});
+	connection.query('SELECT * FROM devices ORDER BY id', function(error, results, fields) {
+		if (error) throw new Error(error);
+		res.json(results);
+	})
+	
+	connection.end();
+});
 
-	app.get('/iot/devices/:id', function(req, res, next) {
-		let { id } = req.params;
+router.post('/devices', function(req, res, next){
 
-	// headers: {
-	// 	host: 'localhost:3000',
-	// 	'user-agent': 'curl/7.47.1',
-	// 	accept: '*/*',
-	// 	'content-length': '27',
-	// 	'content-type': 'application/x-www-form-urlencoded' 
-	// }
+	connection.query('SELECT * FROM devices ORDER BY id', function(error, results, fields) {
+		if (error) throw error;
+		res.json(results);
+	})
+	
+	connection.end();
+});
 
-		connection.query('SELECT * FROM devices WHERE id=?', [id], function(error, results, fields) {
-			if (error) console.log(error);
-			res.send(results);
-		})
-		
-		connection.end();
-	});
+router.get('/devices/:id', function(req, res, next) {
+	let { id } = req.params;
 
-	app.post('/iot/devices/:id', function(req, res, next) {
-		let { params, body, query } = req;
-		let { id } = params;
+// headers: {
+// 	host: 'localhost:3000',
+// 	'user-agent': 'curl/7.47.1',
+// 	accept: '*/*',
+// 	'content-length': '27',
+// 	'content-type': 'application/x-www-form-urlencoded' 
+// }
 
-		console.log(body)
+	connection.query('SELECT * FROM devices WHERE id=?', [id], function(error, results, fields) {
+		if (error) console.log(error);
+		res.send(results);
+	})
+	
+	connection.end();
+});
 
-	// headers: {
-	// 	host: 'localhost:3000',
-	// 	'user-agent': 'curl/7.47.1',
-	// 	accept: '*/*',
-	// 	'content-length': '27',
-	// 	'content-type': 'application/x-www-form-urlencoded' 
-	// }
+router.post('/devices/:id', function(req, res, next) {
+	let { params, body, query } = req;
+	let { id } = params;
 
-		connection.query('SELECT * FROM devices WHERE id=?', [id], function(error, results, fields) {
-			if (error) console.log(error);
-			res.send(results);
-		})
-		
-		connection.end();
-	});
+	console.log(body)
 
-	return app;
-};
+// headers: {
+// 	host: 'localhost:3000',
+// 	'user-agent': 'curl/7.47.1',
+// 	accept: '*/*',
+// 	'content-length': '27',
+// 	'content-type': 'application/x-www-form-urlencoded' 
+// }
+
+	connection.query('SELECT * FROM devices WHERE id=?', [id], function(error, results, fields) {
+		if (error) console.log(error);
+		res.send(results);
+	})
+	
+	connection.end();
+});
+
+module.exports = router;

@@ -111,7 +111,7 @@ app.use(express.urlencoded({ extended: true }))
  * Serve index page
  */
 app.get("/", function(req, res) {
-  req.log.info('something')
+  // req.log.info('something')
   // res.redirect('/api');
   res.send("Working");
   // res.json({});
@@ -177,9 +177,18 @@ app.get('/notify', function(req, res, next) {
 
 });
 
+const request = require('request-promise');
 app.get('/ip', function (req, res) {
-    let { query } = req;
-    res.send(`http://ip-api.com/json/${query}?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,mobile,query`);
+    let { query } = req.query;
+    let url = `http://ip-api.com/json/${query}?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,mobile,query`;
+
+    request.get(url)
+        .then((response) => {
+            res.json(JSON.parse(response));
+        })
+        .catch((err) => {
+            console.error("Error occurred: " + err);
+        });
 });
 
 
@@ -229,6 +238,5 @@ router.use('/mail', routes.mail);
 router.use('/sms', routes.sms);
 router.use('/zoom', routes.zoom);
 router.use('/webhook', routes.webhook);
-
 
 module.exports = app;

@@ -1,3 +1,5 @@
+const router = require('express').Router();
+
 var connectToTwitter = require('../lib/twitterbot');
 // get the app to connect to twitter.
 var tweetbot = new connectToTwitter({
@@ -11,29 +13,50 @@ var tweetbot = new connectToTwitter({
 
 console.log("CrisIoTwitterBot Running.")
 
-module.exports = function(router) {
-	router.get("/twitter/tweets", function (req, res) {
-		console.log(tweetbot)
+router.get("/", function(req, res) {
+	res.send("Hello")
+})
+
+router.get("/tweets", function (req, res) {
+	console.log(tweetbot)
+});
+
+router.get("/intent/search", function (req, res) {
+	tweetbot.search('hello');
+});
+
+router.get("/intent/post", function (req, res) {
+	tweetbot.search('hello');
+});
+
+router.get("/photos", function (req, res) {
+	tweetbot.search('hello');
+});
+
+router.get("/videos", function (req, res) {
+	tweetbot.search('hello');
+});
+
+router.get("/followers", function (req, res) {
+	tweetbot.search('hello');
+});
+
+router.get("/profile", function (req, res) {
+	tweetbot.client.get('hello', function(err, res){
+		if (err) return new Error(err);
+		res.json(res);
 	});
-	router.get("/twitter/intent/search", function (req, res) {
-		tweetbot.search('hello');
-	});
-	router.get("/twitter/intent/post", function (req, res) {
-		tweetbot.search('hello');
-	});
-	router.get("/twitter/photos", function (req, res) {
-		tweetbot.search('hello');
-	});
-	router.get("/twitter/videos", function (req, res) {
-		tweetbot.search('hello');
-	});
-	router.get("/twitter/followers", function (req, res) {
-		tweetbot.search('hello');
-	});
-	router.get("/twitter/profile", function (req, res) {
-		tweetbot.client.get('hello', function(err, res){
-			if (err) return new Error(err);
-			res.json(res);
-		});
-	});
-};
+});
+
+tweetbot.client.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
+  console.log(data)
+})
+
+tweetbot.client.get('search/tweets', { q: 'banana since:2011-07-11', count: 100 }, function(err, data, response) {
+  console.log(data)
+})
+tweetbot.client.get('followers/ids', { screen_name: 'tolga_tezel' },  function (err, data, response) {
+  console.log(data)
+})
+
+module.exports = router;

@@ -37,11 +37,13 @@
     "passport-facebook-token": "^3.3.0",
     "passport-google-oauth": "^2.0.0",
     "path": "^0.12.7",
+    "pg": "^8.7.3",
     "pino": "^6.5.1",
     "pino-http": "^5.2.0",
     "readline": "latest",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
+    "sequelize": "^6.16.2",
     "twit": "latest"
   },
   "devDependencies": {

@@ -1,4 +1,4 @@
-"use strict";
+const router = require('express').Router();
 let request = require('request');
 
 /**
@@ -6,12 +6,11 @@ let request = require('request');
  * @param api
  * @returns {*}
  */
-module.exports = function(api) {
-	/**
-	 * GET /bmobile
-	 */
-	api.get('/bmobile', function(req, res, next) {
-		res.send('Bmobile-Vodafone\'s public API available');
-	});
-	return api;
-};
+/**
+ * GET /bmobile
+ */
+router.get('/bmobile', function(req, res, next) {
+	res.send('Bmobile-Vodafone\'s public API available');
+});
+
+module.exports = router;
