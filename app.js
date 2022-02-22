@@ -7,7 +7,7 @@ let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 let fs = require('fs-extra');
 let path = require('path');
 let cors = require('cors');
-// let pino = require('pino-http')();
+let pino = require('pino-http')();
 let dt = require('./lib/myfirstmodel');
 let { check_fb_signature, allowCrossDomain, isLoggedIn } = require("./lib/middlewares");
 // let xmlParser = require('./lib/parser');
@@ -17,7 +17,6 @@ let db = require("./lib/database");
 
 // Creating express app
 const app = express();
-const router = express.Router();
 
 // Creating an instance for Database
 // new db(app);
@@ -43,12 +42,12 @@ app.set('port', PORT);
 // app.use(express.static(path.join(__dirname, 'views')));
 // app.use('/images', express.static(path.join(__dirname, 'client/img')));
 
-// app.use(bodyParser.urlencoded({extended: true}));
 // Check Facebook Signature
-app.use(bodyParser.json({
+app.use(express.json({
   verify: check_fb_signature
-}));
-// app.use(pino);
+}))
+app.use(express.urlencoded({ extended: true }))
+app.use(pino);
 
 // app.use(passport.initialize({userProperty: 'currentUser' }));
 // app.use(passport.session({ secret: 'keyboard cat' }));
@@ -94,13 +93,95 @@ app.use(bodyParser.json({
 
 // var page = fs.readFileSync(__dirname + '/index.html', 'utf8');
 
+// app.param('id', function(req, res, next, id){
+  // User.find(id, function(err, user){
+  //    if (err) {
+  //        return next(err);
+  //    } else if (!user) {
+  //        return next(new Error('failed to load user'));
+  //    }
+  //    req.user = user;
+  //    req.session.c_user = user[0].uid;
+  //    next();
+  // });
+  // next();
+// });
+
 /**
- * redirect / to /api
+ * Serve index page
  */
 app.get("/", function(req, res) {
+  req.log.info('something')
   // res.redirect('/api');
   res.send("Working");
+  // res.json({});
+
+  // req.on('data', function(res){
+  //   console.log(res)
+  // });
+
+  // request.get("http://localhost/christianaugustyn/images/UmVRFlQVwwy.png")
+  //   .then(function(body){
+  //     var image = new Buffer(body, 'binary');
+  //     console.log(image);
+  //   });
+
+  // // the order of this list is significant; should be server preferred order
+  // switch (req.accepts(['json', 'html'])) {
+  //   case 'json':
+  //     res.setHeader('Content-Type', 'application/json');
+  //     res.write('{"hello":"world!"}');
+  //     break;
+  //   case 'html':
+  //     res.setHeader('Content-Type', 'text/html');
+  //     res.writeHead(200, {"Content-Type": "text/html"});
+  //     res.write('<b>hello, world!</b>');
+  //     res.write("<br>This is one deadend endpoint. try something like /api/v1/weather");
+  //     res.write("Deployed at " + new Date());
+  //     break;
+  //   default:
+  //     // the fallback is text/plain, so no need to specify it above
+  //     res.setHeader('Content-Type', 'text/plain');
+  //     res.write('hello, world!');
+  //     break
+  // }
+  // res.end()
 });
+
+app.get('/test', function (req, res) {
+    console.log("working");
+});
+
+app.get('/notify', function(req, res, next) {
+  const notifier = require('node-notifier');
+  let {title, message} = req.query;
+
+  notifier.notify({
+    title: 'My awesome title',
+    message: 'Hello from node, Mr. User!',
+    icon: path.join(__dirname, 'change password.png'), // Absolute path (doesn't work on balloons)
+    sound: true, // Only Notification Center or Windows Toasters
+    wait: true // Wait with callback, until user action is taken against notification
+  }, function (err, response) {
+    // Response is response from notification
+  });
+
+  notifier.on('click', function (notifierObject, options) {
+    // Triggers if `wait: true` and user clicks notification
+    console.log("hello");
+  });
+
+  notifier.on('timeout', function (notifierObject, options) {
+    // Triggers if `wait: true` and notification closes
+  });
+
+});
+
+app.get('/ip', function (req, res) {
+    let { query } = req;
+    res.send(`http://ip-api.com/json/${query}?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,mobile,query`);
+});
+
 
 /**
  * How the api is structured
@@ -119,7 +200,35 @@ app.get("/", function(req, res) {
 /**
  * register /api endpoint
  */
+const router = express.Router();
 app.use('/api', router);
-app.use('/api', require('./routes/api'));
+
+const routes = require('./routes/index');
+
+// router.use('/api', require('./routes/api'));
+router.use('/digicel', routes.digicel);
+router.use('/telikom', routes.telikom);
+router.use('/bmobile', routes.bmobile);
+router.use('/pngx', routes.pngx);
+router.use('/oauth', routes.oauth);
+router.use('/facebook', routes.facebook);
+router.use('/instagram', routes.instagram);
+// router.use('/twitter', routes.twitter);
+router.use('/weather', routes.weather);
+// router.use('/imdb', routes.imdb);
+// router.use('/google', routes.google);
+// router.use('/translate', routes.translate);
+// router.use('/maps', routes.maps);
+router.use('/tracker', routes.tracker);
+// router.use('/sports', routes.sports);
+// router.use('/spotify', routes.spotify);
+// router.use('/soundcloud', routes.soundcloud);
+// router.use('/radio', routes.radio);
+router.use('/mail', routes.mail);
+// router.use('/iot', routes.iot);
+router.use('/sms', routes.sms);
+router.use('/zoom', routes.zoom);
+router.use('/webhook', routes.webhook);
+
 
 module.exports = app;
