@@ -7,7 +7,7 @@ let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 let fs = require('fs-extra');
 let path = require('path');
 let cors = require('cors');
-let pino = require('pino-http')();
+// let pino = require('pino-http')();
 let dt = require('./lib/myfirstmodel');
 let { check_fb_signature, allowCrossDomain, isLoggedIn } = require("./lib/middlewares");
 // let xmlParser = require('./lib/parser');
@@ -47,7 +47,7 @@ app.use(express.json({
   verify: check_fb_signature
 }))
 app.use(express.urlencoded({ extended: true }))
-app.use(pino);
+// app.use(pino);
 
 // app.use(passport.initialize({userProperty: 'currentUser' }));
 // app.use(passport.session({ secret: 'keyboard cat' }));
