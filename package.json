@@ -24,7 +24,6 @@
     "googleapis": "^50.0.0",
     "http": "latest",
     "ip": "latest",
-    "isomorphic-fetch": "^2.2.1",
     "mongoose": "^4.13.21",
     "mqtt": "^4.1.0",
     "mysql": "^2.18.1",

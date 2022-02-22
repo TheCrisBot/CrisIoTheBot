@@ -3,7 +3,7 @@ const config = require("../");
 const mongoose = require("mongoose");
 
 var opts = {
-	useMongoClient: true,
+	// useMongoClient: true,
 	// auto_reconnect: true,
 	// poolSize: 10,
 	// server: { sockeOptions: { keepAlive: 1 } },
@@ -11,10 +11,10 @@ var opts = {
 	// 	numberOfRetries: 1000,
 	// 	retryMiliSeconds: 1000
 	// }
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	useCreateIndex: true,
-	useFindAndModify: false
+	// useNewUrlParser: true,
+	// useUnifiedTopology: true,
+	// useCreateIndex: true,
+	// useFindAndModify: false
 };
 
 module.exports = function() {

@@ -212,6 +212,8 @@ app.get('/ip', function (req, res) {
 const router = express.Router();
 app.use('/api', router);
 
+app.use('/api', require('./routes/api'));
+
 const routes = require('./routes/index');
 
 // router.use('/api', require('./routes/api'));

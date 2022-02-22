@@ -15,16 +15,16 @@ Quote.methods(['get', 'put', 'post', 'delete']);
 Quote.register(router, '/quotes');
 
 // importing api modules
-require('./webhook')(router);
-require("./digicel-api")(router);
-require("./telikom-api")(router);
-require("./bmobile-api")(router);
-require('./pngx-api')(router);
-require('./oauth')(router);
-require("./facebook-api")(router);
-require('./instagram-api')(router);
+// require('./webhook')(router);
+// require("./digicel-api")(router);
+// require("./telikom-api")(router);
+// require("./bmobile-api")(router);
+// require('./pngx-api')(router);
+// require('./oauth')(router);
+// require("./facebook-api")(router);
+// require('./instagram-api')(router);
 // require('./twitter-api')(router);
-require('./weather-api')(router);
+// require('./weather-api')(router);
 // require('./imdb-api')(router);
 // require('./google-api')(router);
 // require('./translate-api')(router);
@@ -33,9 +33,9 @@ require('./weather-api')(router);
 // require('./spotify-api')(router);
 // require('./soundcloud-api')(router);
 // require('./radio-api')(router);
-require('./mail-api')(router);
+// require('./mail-api')(router);
 // require('./iot')(router);
-require('./sms-api')(router);
+// require('./sms-api')(router);
 
 
 module.exports = router;
