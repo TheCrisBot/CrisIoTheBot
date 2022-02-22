@@ -1,4 +1,5 @@
 const router = require('express').Router();
+require('dotenv').config();
 
 router.get('/', (req, res) => {
   res.send('Welcome to the Unsplash Chatbot for Zoom!')
@@ -25,7 +26,7 @@ router.get('/documentation', (req, res) => {
 });
 
 router.get('/zoomverify/verifyzoom.html', (req, res) => {
-  res.send(process.env.zoom_verification_code)
+  res.send(process.env.zoom_verification_token)
 });
 
 router.post('/unsplash', (req, res) => {
