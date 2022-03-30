@@ -3,6 +3,7 @@
 const http = require('http');
 const ip = require('ip');
 const os = require('os');
+// const boxen = require('boxen');
 require("dotenv").config();
 
 let app = require('./app');
@@ -51,5 +52,5 @@ server.listen(app.get('port'), /*"localhost",*/ function(req, res) {
 
 	console.log(log);
 
-	// console.log(`Server running on port http://localhost:${details.port}`)
+	// console.log(boxen(`Server running on port http://localhost:${details.port}`));
 });

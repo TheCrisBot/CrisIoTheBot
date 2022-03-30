@@ -44,7 +44,7 @@ app.set('port', PORT);
 
 // Check Facebook Signature
 app.use(express.json({
-  verify: check_fb_signature
+  // verify: check_fb_signature
 }))
 app.use(express.urlencoded({ extended: true }))
 // app.use(pino);

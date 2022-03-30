@@ -15,6 +15,7 @@
   "dependencies": {
     "apiai": "^4.0.3",
     "body-parser": "^1.19.2",
+    "boxen": "^6.2.1",
     "cors": "^2.8.5",
     "dotenv": "latest",
     "events": "^3.3.0",
@@ -43,7 +44,8 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
     "sequelize": "^6.16.2",
-    "twit": "latest"
+    "twit": "latest",
+    "wink-nlp": "^1.11.0"
   },
   "devDependencies": {
     "nodemon": "latest"
