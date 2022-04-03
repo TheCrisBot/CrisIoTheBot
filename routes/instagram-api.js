@@ -14,14 +14,14 @@ var data = {};
 //     -F 'code=3453' \
 //     https://api.instagram.com/oauth/access_token
 
-	data = Object.assign(data, {
-		client_id: '',
-		client_secret: ''
-	});
+data = Object.assign(data, {
+	client_id: '',
+	client_secret: ''
+});
 
-	if (data.client_id == null && data.client_secret == null) {
-		throw 'You must provide an access token or a client id';
-	}
+if (data.client_id == null && data.client_secret == null) {
+	throw 'You must provide an access token or a client id';
+}
 
 /**
  * GET /api/v1/instagam/photos

@@ -15,15 +15,16 @@ const searchType = ["user", "page", "event", "group", "place", "placetopic"];
 const queryType = ["post", "video"];
 
 router.get('/', function(req, res){
-	res.json({
-		"error": {
-			"message": "Unsupported get request. Please read the Graph API documentation at https://developers.facebook.com/docs/graph-api",
-			"type": "GraphMethodException",
-			"code": 100,
-			"error_subcode": 33,
-			"fbtrace_id": "E0Ido0iFKsI"
-		}
-	});
+	res.json("working");
+	// res.json({
+	// 	"error": {
+	// 		"message": "Unsupported get request. Please read the Graph API documentation at https://developers.facebook.com/docs/graph-api",
+	// 		"type": "GraphMethodException",
+	// 		"code": 100,
+	// 		"error_subcode": 33,
+	// 		"fbtrace_id": "E0Ido0iFKsI"
+	// 	}
+	// });
 	// https://www.bingapis.com/api/v6/images/search
 	// wss://*.facebook.com:* wss://*.web.whatsrouter.com wss://web.whatsrouter.com
 });
@@ -63,22 +64,22 @@ router.get('/friendslist', function(req, res) {
 	// make a request to https://mobile.facebook.com/
 	// $("[name=target]").value
 	// returns user id
-	
+
 	function getids(a, b, c) {
 		var d = a.length;
 		if (0 == d) return [];
 		var f, e = 0,
 			g = [];
 		for (c || (b = b.toLowerCase(), a = a.toLowerCase());
-			(f = b.indexOf(a, e)) > -1;) g.push(f), e = f + d;
+			 (f = b.indexOf(a, e)) > -1;) g.push(f), e = f + d;
 		return g
 	}
-			getFriendsList()
-	
+	getFriendsList()
+
 	//gets an array of ids of all active users in friends list.
 	function getFriendsList() {
 		for (let indx = 0; true; indx++) {
-	
+
 			// console.log(ids);
 			var counter = 0;
 			var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -127,14 +128,14 @@ router.post('/search', (req, res) => {
 		// There is another property that allows for pagination of results.
 		// Pagination will not be covered in this post,
 		// so we only need the data property of the parsed response.
-		const parsedRes = JSON.parse(fbRes).data; 
+		const parsedRes = JSON.parse(fbRes).data;
 		res.json(parsedRes);
 	})
 })
 
 router.post('/upload', function(req, res, next) {
 	var typeOfUpload = req.query.type;
-	
+
 	const id = 'page or user id goes here';
 	const access_token = 'for page if posting to a page, for user if posting to a user\'s feed';
 
@@ -145,7 +146,7 @@ router.post('/upload', function(req, res, next) {
 			access_token: keys.facebook.pageAccessToken,
 		}
 	};
-	
+
 	if (typeOfUpload === "video") {
 		options['uri'] = `https://graph.facebook.com/v2.8/${id}/videos`;
 		options['qs']['description'] = 'Caption goes here';
@@ -163,61 +164,61 @@ router.post('/upload', function(req, res, next) {
 		options['qs']['no_story'] = false;
 	}
 
-		
+
 	return request(options).then(function(fbRes){
 		res.json(fbRes);
 	});
 });
 
 router.route('/message')
-.get(function(req, res){
-	return request({
-		"uri": "https://graph.facebook.com/v2.12/me/messages",
-		"qs": { 
-			"access_token": process.env.USER_ACCESS_TOKEN,
-			"limit": 5
-		},
-		"method": "POST",
-		"json": true
-	}, function(error, response, body) {
-		if (!error) {
-			console.log('message sent');
-		} else if (error) {
-			console.log("Error sending message: " + response.error);
-		} else {
-			console.error("Unable to send message: " + error);
-		}
-	});
-})
-.post(function(req, res){
-	const recipientId = req.body.recipient;
-	const message = req.body.message;
+	.get(function(req, res){
+		return request({
+			"uri": "https://graph.facebook.com/v2.12/me/messages",
+			"qs": {
+				"access_token": process.env.USER_ACCESS_TOKEN,
+				"limit": 5
+			},
+			"method": "POST",
+			"json": true
+		}, function(error, response, body) {
+			if (!error) {
+				console.log('message sent');
+			} else if (error) {
+				console.log("Error sending message: " + response.error);
+			} else {
+				console.error("Unable to send message: " + error);
+			}
+		});
+	})
+	.post(function(req, res){
+		const recipientId = req.body.recipient;
+		const message = req.body.message;
 
-	let request_body = {
-		"recipient": {
-			"id": recipientId
-		},
-		"message": response
-	}
-
-	// Send the HTTPS request to the Messenger Platform
-	return request({
-		"uri": "https://graph.facebook.com/v2.12/me/messages",
-		"qs": { 
-			"access_token": process.env.USER_ACCESS_TOKEN
-		},
-		"method": "POST",
-		"json": request_body
-	}, function(error, response, body) {
-		if (!error) {
-			console.log('message sent');
-		} else if (error) {
-			console.log("Error sending message: " + response.error);
-		} else {
-			console.error("Unable to send message: " + error);
+		let request_body = {
+			"recipient": {
+				"id": recipientId
+			},
+			"message": response
 		}
+
+		// Send the HTTPS request to the Messenger Platform
+		return request({
+			"uri": "https://graph.facebook.com/v2.12/me/messages",
+			"qs": {
+				"access_token": process.env.USER_ACCESS_TOKEN
+			},
+			"method": "POST",
+			"json": request_body
+		}, function(error, response, body) {
+			if (!error) {
+				console.log('message sent');
+			} else if (error) {
+				console.log("Error sending message: " + response.error);
+			} else {
+				console.error("Unable to send message: " + error);
+			}
+		});
 	});
-});
 
 function getUserProfilePicture(userId) {
 	return `https://graph.facebook.com/${userId}/picture?type=large`;
@@ -257,52 +258,52 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/webhook', function(req, res) {
-    if (req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFICATION_TOKEN){
-       console.log('webhook verified');
-       res.status(200).send(req.query['hub.challenge']);
-    } 
-    else {
-        console.error('verification failed. Token mismatch.');
-        res.sendStatus(403);
-    }
+	if (req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFICATION_TOKEN){
+		console.log('webhook verified');
+		res.status(200).send(req.query['hub.challenge']);
+	}
+	else {
+		console.error('verification failed. Token mismatch.');
+		res.sendStatus(403);
+	}
 });
 
 router.post('/webhook', function(req, res) {
-    //checking for page subscription.
-    if (req.body.object === 'page'){
-       
-        /* Iterate over each entry, there can be multiple entries 
+	//checking for page subscription.
+	if (req.body.object === 'page'){
+
+		/* Iterate over each entry, there can be multiple entries
         if callbacks are batched. */
-        req.body.entry.forEach(function(entry) {
-        // Iterate over each messaging event
-            entry.messaging.forEach(function(event) {
-                console.log(event);
-                if (event.postback){
-                    processPostback(event);
-                } else if (event.message){
-                    processMessage(event);
-                }
-            });
-        });
-        
-        res.sendStatus(200);
-    }
+		req.body.entry.forEach(function(entry) {
+			// Iterate over each messaging event
+			entry.messaging.forEach(function(event) {
+				console.log(event);
+				if (event.postback){
+					processPostback(event);
+				} else if (event.message){
+					processMessage(event);
+				}
+			});
+		});
+
+		res.sendStatus(200);
+	}
 });
 
 function senderAction(recipientId){
-    request({
-        url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-        method: "POST",
-        json: {
-            recipient: {id: recipientId},
-            sender_action: "typing_on"
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log("Error sending message: " + response.error);
-        }
-    });
+	request({
+		url: "https://graph.facebook.com/v2.6/me/messages",
+		qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+		method: "POST",
+		json: {
+			recipient: {id: recipientId},
+			sender_action: "typing_on"
+		}
+	}, function(error, response, body) {
+		if (error) {
+			console.log("Error sending message: " + response.error);
+		}
+	});
 }
 
 function sendMessage(recipientId, message){
@@ -316,115 +317,115 @@ function sendMessage(recipientId, message){
 				message: message,
 			}
 		}, function(error, response, body) {
-            if (error) {
-                console.log("Error sending message: " + response.error);
-            	reject(response.error);
-            } else {
-               resolve(body);
-            }
-	    });
+			if (error) {
+				console.log("Error sending message: " + response.error);
+				reject(response.error);
+			} else {
+				resolve(body);
+			}
+		});
 	})
 }
 
 function processPostback(event) {
-  const senderID = event.sender.id;
-  const payload = event.postback.payload;
-  if (payload === 'WELCOME') {
-     request({ url: "https://graph.facebook.com/v2.6/" + senderID,
-     qs: { access_token: process.env.PAGE_ACCESS_TOKEN,
-           fields: "first_name"
-         },
-     method: "GET"
-  }, function(error, response, body) {
-      let greeting = '';
-      if (error) {
-          console.error("Error getting user name: " + error);
-      } else {
-          let bodyObject = JSON.parse(body);
-          console.log(bodyObject);
-          name = bodyObject.first_name;
-          greeting = "Hello " + name  + ". ";
-     }
-     let message = greeting + "Welcome to Healthbot. Hope you are       doing good today";
-     let message2 = "I am your nutrition tracker :-)"
-     let message3 = "please type in what you ate like: I ate chicken birayani and 2 chapatis with dal.";
-      senderAction(senderID);
-       sendMessage(senderID, {text: message}).then(() => {
-         sendMessage(senderID, { text: message2 }).then(() => {
-           sendMessage(senderID, {  text: message3}).then(() => {
-             sendMessage(senderID, { text: '🎈' });
-         })
-      });
-    });
-  });
- }
+	const senderID = event.sender.id;
+	const payload = event.postback.payload;
+	if (payload === 'WELCOME') {
+		request({ url: "https://graph.facebook.com/v2.6/" + senderID,
+			qs: { access_token: process.env.PAGE_ACCESS_TOKEN,
+				fields: "first_name"
+			},
+			method: "GET"
+		}, function(error, response, body) {
+			let greeting = '';
+			if (error) {
+				console.error("Error getting user name: " + error);
+			} else {
+				let bodyObject = JSON.parse(body);
+				console.log(bodyObject);
+				name = bodyObject.first_name;
+				greeting = "Hello " + name  + ". ";
+			}
+			let message = greeting + "Welcome to Healthbot. Hope you are       doing good today";
+			let message2 = "I am your nutrition tracker :-)"
+			let message3 = "please type in what you ate like: I ate chicken birayani and 2 chapatis with dal.";
+			senderAction(senderID);
+			sendMessage(senderID, {text: message}).then(() => {
+				sendMessage(senderID, { text: message2 }).then(() => {
+					sendMessage(senderID, {  text: message3}).then(() => {
+						sendMessage(senderID, { text: '🎈' });
+					})
+				});
+			});
+		});
+	}
 }
 
 function processMessage(event) {
-    if (!event.message.is_echo) {
-      const message = event.message;
-      const senderID = event.sender.id;
-      console.log("Received message from senderId: " + senderID);
-      console.log("Message is: " + JSON.stringify(message));
-    if (message.text) {
-    // now we will take the text received and send it to an food tracking API.
-      let text = message.text;
-      let request = require("request");
-      let options = {
-          method: 'POST',
-          url: 'https://mefit-preprod.herokuapp.com/api/getnutritionvalue',
-          headers:{ 'cache-control': 'no-cache',
-                    'content-type': 'application/json'
-                  },
-          body:{ userID: process.env.USERID,
-                 searchTerm: text
-               },
-          json: true
-      };
-      request(options, function (error, response, body) {
-	      if (error) throw new Error(error);
-	      senderAction(senderID);
-	      // after the response is recieved we will send the details in a Generic template
-	       sendGenericTemplate(senderID, body);
-      });
-    }
-  }
+	if (!event.message.is_echo) {
+		const message = event.message;
+		const senderID = event.sender.id;
+		console.log("Received message from senderId: " + senderID);
+		console.log("Message is: " + JSON.stringify(message));
+		if (message.text) {
+			// now we will take the text received and send it to an food tracking API.
+			let text = message.text;
+			let request = require("request");
+			let options = {
+				method: 'POST',
+				url: 'https://mefit-preprod.herokuapp.com/api/getnutritionvalue',
+				headers:{ 'cache-control': 'no-cache',
+					'content-type': 'application/json'
+				},
+				body:{ userID: process.env.USERID,
+					searchTerm: text
+				},
+				json: true
+			};
+			request(options, function (error, response, body) {
+				if (error) throw new Error(error);
+				senderAction(senderID);
+				// after the response is recieved we will send the details in a Generic template
+				sendGenericTemplate(senderID, body);
+			});
+		}
+	}
 }
 
 function sendGenericTemplate(recipientId, respBody) {
-   console.log(respBody);
-   const nutritionalValue = [];
-   for (let i = 0; i < respBody.length; i++) { // I dont like using forEach
-      let obj = {
-             "title":respBody[i].food_name,
-             "image_url": respBody[i].thumbnail,
-             "subtitle": 'Total Calories: ' +     respBody[i].total_calories + "\n" + 'protein: ' + respBody[i].protein + "\n" + 'Carbohydrates: ' + respBody[i].total_carbohydrate,
-            }
-            nutritionalValue.push(obj);
-         }
-         let messageData = {
-         "attachment": {
-         "type": "template",
-         "payload": {
-               "template_type": "generic",
-               "elements": nutritionalValue
-            }
-         }
-      }
+	console.log(respBody);
+	const nutritionalValue = [];
+	for (let i = 0; i < respBody.length; i++) { // I dont like using forEach
+		let obj = {
+			"title":respBody[i].food_name,
+			"image_url": respBody[i].thumbnail,
+			"subtitle": 'Total Calories: ' +     respBody[i].total_calories + "\n" + 'protein: ' + respBody[i].protein + "\n" + 'Carbohydrates: ' + respBody[i].total_carbohydrate,
+		}
+		nutritionalValue.push(obj);
+	}
+	let messageData = {
+		"attachment": {
+			"type": "template",
+			"payload": {
+				"template_type": "generic",
+				"elements": nutritionalValue
+			}
+		}
+	}
 
-      request({
-      	url: 'https://graph.facebook.com/v2.6/me/messages',
-      	qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-      	method: 'POST',
-      	json: {
-      		recipient: {id: recipientId},
-      		message: messageData,
-      	}
-    }, function(error, response, body){
-    	if (error) {
-    		console.log("Error sending message: " + response.error)
-    	}
-    })
+	request({
+		url: 'https://graph.facebook.com/v2.6/me/messages',
+		qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+		method: 'POST',
+		json: {
+			recipient: {id: recipientId},
+			message: messageData,
+		}
+	}, function(error, response, body){
+		if (error) {
+			console.log("Error sending message: " + response.error)
+		}
+	})
 }
 
 
