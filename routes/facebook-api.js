@@ -153,17 +153,16 @@ router.post('/upload', function(req, res, next) {
 		options['qs']['file_url'] = 'Video url goes here';
 		options['qs']['no_story'] = false;
 	}
-	if (typeOfUpload == "photo") {
+	if (typeOfUpload === "photo") {
 		options['uri'] = `https://graph.facebook.com/v2.8/${id}/photos`;
 		options['qs']['caption'] = 'Caption goes here';
 		options['qs']['url'] = 'Image url goes here';
 	}
-	if (typeOfUpload == "text") {
+	if (typeOfUpload === "text") {
 		options['uri'] = `https://graph.facebook.com/v2.8/${id}/feed`;
 		options['qs']['message'] = 'Message goes here';
 		options['qs']['no_story'] = false;
 	}
-
 
 	return request(options).then(function(fbRes){
 		res.json(fbRes);
@@ -330,6 +329,9 @@ function sendMessage(recipientId, message){
 function processPostback(event) {
 	const senderID = event.sender.id;
 	const payload = event.postback.payload;
+	
+	console.log("payload: " + payload);
+
 	if (payload === 'WELCOME') {
 		request({ url: "https://graph.facebook.com/v2.6/" + senderID,
 			qs: { access_token: process.env.PAGE_ACCESS_TOKEN,
@@ -346,7 +348,7 @@ function processPostback(event) {
 				name = bodyObject.first_name;
 				greeting = "Hello " + name  + ". ";
 			}
-			let message = greeting + "Welcome to Healthbot. Hope you are       doing good today";
+			let message = greeting + "Welcome to Healthbot. Hope you are doing good today";
 			let message2 = "I am your nutrition tracker :-)"
 			let message3 = "please type in what you ate like: I ate chicken birayani and 2 chapatis with dal.";
 			senderAction(senderID);
