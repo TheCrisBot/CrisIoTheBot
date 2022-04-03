@@ -196,10 +196,10 @@ app.get('/ip', function (req, res) {
  * How the api is structured
  * / -> throws docs as .html
  * /api ->
- * /api/webhook -> webhooks for authenticating social services like facebook, twitter, instagram, etc
- * /api/webhook/facebook
- * /api/webhook/twitter
- * /api/webhook/instagram
+ * /api/[facebook|twitter|instagram]/webhook -> webhooks for authenticating social services like facebook, twitter, instagram, etc
+ * /api/facebook/webhook
+ * /api/twitter/webhook
+ * /api/instagram/webhook
  * /api/oauth -> uses passport to authenticate me in my other services
  * /api/stocks -> exposes stocks data from pngx.com
  * /api/stocks/:symbol/historicals
@@ -239,6 +239,6 @@ router.use('/mail', routes.mail);
 // router.use('/iot', routes.iot);
 router.use('/sms', routes.sms);
 router.use('/zoom', routes.zoom);
-router.use('/webhook', routes.webhook);
+// router.use('/webhook', routes.webhook);
 
 module.exports = app;

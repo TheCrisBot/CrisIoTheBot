@@ -59,6 +59,23 @@ api.get('/', function(req, res) {
     }
 });
 
+// {
+//   "field": "messages",
+//   "value": {
+//     "sender": {
+//       "id": "12334"
+//     },
+//     "recipient": {
+//       "id": "23245"
+//     },
+//     "timestamp": "1527459824",
+//     "message": {
+//       "mid": "test_message_id",
+//       "text": "test_message"
+//     }
+//   }
+// }
+
 /**
  * POST /webhook
  * Facebook Webhook Endpoints
@@ -687,6 +704,7 @@ function sendMessage(recipient_id, message) {
             text: message
         }
     }
+
     request({
         uri: 'https://graph.facebook.com/v3.2/me/messages',
         qs: {
@@ -694,7 +712,6 @@ function sendMessage(recipient_id, message) {
         },
         method: 'POST',
         json: messageData
-
     }, function (error, response, body) {
         if (!error && response.statusCode == 200) {
             console.log("Messeage sent successsfully.");
@@ -703,6 +720,5 @@ function sendMessage(recipient_id, message) {
         }
     });
 }
-
 
 module.exports = api;

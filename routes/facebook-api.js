@@ -14,7 +14,7 @@ const pageFieldSet = 'name, category, link, picture, is_verified';
 const searchType = ["user", "page", "event", "group", "place", "placetopic"];
 const queryType = ["post", "video"];
 
-router.get('/facebook', function(req, res){
+router.get('/', function(req, res){
 	res.json({
 		"error": {
 			"message": "Unsupported get request. Please read the Graph API documentation at https://developers.facebook.com/docs/graph-api",
@@ -28,7 +28,7 @@ router.get('/facebook', function(req, res){
 	// wss://*.facebook.com:* wss://*.web.whatsrouter.com wss://web.whatsrouter.com
 });
 
-router.get('/facebook/posts', function(req, res) {
+router.get('/posts', function(req, res) {
 	var typeOfPosts = req.query.type;
 	var limit = req.query.limit;
 
@@ -58,7 +58,7 @@ router.get('/facebook/posts', function(req, res) {
 	})
 });
 
-router.get('/facebook/friendslist', function(req, res) {
+router.get('/friendslist', function(req, res) {
 	var prof_id = 100004177278169;
 	// make a request to https://mobile.facebook.com/
 	// $("[name=target]").value
@@ -108,7 +108,7 @@ router.get('/facebook/friendslist', function(req, res) {
 	}
 });
 
-router.post('/facebook/search', (req, res) => {
+router.post('/search', (req, res) => {
 	const { queryTerm, searchType } = req.body;
 
 	const options = {
@@ -132,7 +132,7 @@ router.post('/facebook/search', (req, res) => {
 	})
 })
 
-router.post('/facebook/upload', function(req, res, next) {
+router.post('/upload', function(req, res, next) {
 	var typeOfUpload = req.query.type;
 	
 	const id = 'page or user id goes here';
@@ -169,7 +169,7 @@ router.post('/facebook/upload', function(req, res, next) {
 	});
 });
 
-router.route('/facebook/message')
+router.route('/message')
 .get(function(req, res){
 	return request({
 		"uri": "https://graph.facebook.com/v2.12/me/messages",
@@ -239,12 +239,12 @@ router.get('/profile', isLoggedIn, function(req, res) {
 // FACEBOOK ROUTES =====================
 // =====================================
 // route for facebook authentication and login
-router.get('/auth/facebook', passport.authenticate('facebook', {
+router.get('/auth', passport.authenticate('facebook', {
 	scope : ['public_profile', 'email']
 }));
 
 // handle the callback after facebook has authenticated the user
-router.get('/auth/facebook/callback',
+router.get('/auth/callback',
 	passport.authenticate('facebook', {
 		successRedirect : '/',
 		failureRedirect : '/connect'
@@ -255,5 +255,177 @@ router.get('/logout', function(req, res) {
 	req.logout();
 	res.redirect('/');
 });
+
+router.get('/webhook', function(req, res) {
+    if (req.query['hub.verify_token'] === process.env.FACEBOOK_VERIFICATION_TOKEN){
+       console.log('webhook verified');
+       res.status(200).send(req.query['hub.challenge']);
+    } 
+    else {
+        console.error('verification failed. Token mismatch.');
+        res.sendStatus(403);
+    }
+});
+
+router.post('/webhook', function(req, res) {
+    //checking for page subscription.
+    if (req.body.object === 'page'){
+       
+        /* Iterate over each entry, there can be multiple entries 
+        if callbacks are batched. */
+        req.body.entry.forEach(function(entry) {
+        // Iterate over each messaging event
+            entry.messaging.forEach(function(event) {
+                console.log(event);
+                if (event.postback){
+                    processPostback(event);
+                } else if (event.message){
+                    processMessage(event);
+                }
+            });
+        });
+        
+        res.sendStatus(200);
+    }
+});
+
+function senderAction(recipientId){
+    request({
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+        method: "POST",
+        json: {
+            recipient: {id: recipientId},
+            sender_action: "typing_on"
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log("Error sending message: " + response.error);
+        }
+    });
+}
+
+function sendMessage(recipientId, message){
+	return new Promise(function(resolve, reject) {
+		request({
+			url: "https://graph.facebook.com/v2.6/me/messages",
+			qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+			method: "POST",
+			json: {
+				recipient: {id: recipientId},
+				message: message,
+			}
+		}, function(error, response, body) {
+            if (error) {
+                console.log("Error sending message: " + response.error);
+            	reject(response.error);
+            } else {
+               resolve(body);
+            }
+	    });
+	})
+}
+
+function processPostback(event) {
+  const senderID = event.sender.id;
+  const payload = event.postback.payload;
+  if (payload === 'WELCOME') {
+     request({ url: "https://graph.facebook.com/v2.6/" + senderID,
+     qs: { access_token: process.env.PAGE_ACCESS_TOKEN,
+           fields: "first_name"
+         },
+     method: "GET"
+  }, function(error, response, body) {
+      let greeting = '';
+      if (error) {
+          console.error("Error getting user name: " + error);
+      } else {
+          let bodyObject = JSON.parse(body);
+          console.log(bodyObject);
+          name = bodyObject.first_name;
+          greeting = "Hello " + name  + ". ";
+     }
+     let message = greeting + "Welcome to Healthbot. Hope you are       doing good today";
+     let message2 = "I am your nutrition tracker :-)"
+     let message3 = "please type in what you ate like: I ate chicken birayani and 2 chapatis with dal.";
+      senderAction(senderID);
+       sendMessage(senderID, {text: message}).then(() => {
+         sendMessage(senderID, { text: message2 }).then(() => {
+           sendMessage(senderID, {  text: message3}).then(() => {
+             sendMessage(senderID, { text: '🎈' });
+         })
+      });
+    });
+  });
+ }
+}
+
+function processMessage(event) {
+    if (!event.message.is_echo) {
+      const message = event.message;
+      const senderID = event.sender.id;
+      console.log("Received message from senderId: " + senderID);
+      console.log("Message is: " + JSON.stringify(message));
+    if (message.text) {
+    // now we will take the text received and send it to an food tracking API.
+      let text = message.text;
+      let request = require("request");
+      let options = {
+          method: 'POST',
+          url: 'https://mefit-preprod.herokuapp.com/api/getnutritionvalue',
+          headers:{ 'cache-control': 'no-cache',
+                    'content-type': 'application/json'
+                  },
+          body:{ userID: process.env.USERID,
+                 searchTerm: text
+               },
+          json: true
+      };
+      request(options, function (error, response, body) {
+	      if (error) throw new Error(error);
+	      senderAction(senderID);
+	      // after the response is recieved we will send the details in a Generic template
+	       sendGenericTemplate(senderID, body);
+      });
+    }
+  }
+}
+
+function sendGenericTemplate(recipientId, respBody) {
+   console.log(respBody);
+   const nutritionalValue = [];
+   for (let i = 0; i < respBody.length; i++) { // I dont like using forEach
+      let obj = {
+             "title":respBody[i].food_name,
+             "image_url": respBody[i].thumbnail,
+             "subtitle": 'Total Calories: ' +     respBody[i].total_calories + "\n" + 'protein: ' + respBody[i].protein + "\n" + 'Carbohydrates: ' + respBody[i].total_carbohydrate,
+            }
+            nutritionalValue.push(obj);
+         }
+         let messageData = {
+         "attachment": {
+         "type": "template",
+         "payload": {
+               "template_type": "generic",
+               "elements": nutritionalValue
+            }
+         }
+      }
+
+      request({
+      	url: 'https://graph.facebook.com/v2.6/me/messages',
+      	qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+      	method: 'POST',
+      	json: {
+      		recipient: {id: recipientId},
+      		message: messageData,
+      	}
+    }, function(error, response, body){
+    	if (error) {
+    		console.log("Error sending message: " + response.error)
+    	}
+    })
+}
+
 
 module.exports = router;
