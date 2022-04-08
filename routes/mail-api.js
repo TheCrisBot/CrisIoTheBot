@@ -9,8 +9,6 @@ var request = require('request-promise');
  * mailinator ``
  */
 
-// Mail.prototype.forwardMessage = function() {
-
 router.get('/', function(req, res) {
     var provider = req.query.prov;
     var limit = req.query.limit;
@@ -67,6 +65,9 @@ var Mail = function(app_secret, app_id, access_token){
 
     // check token
 };
+
+// Mail.prototype.forwardMessage = function() {
+// }
 
 Mail.prototype.getMessages = function(options) {
     return new Promise(function (resolve, reject) {

@@ -1,4 +1,5 @@
 let router = require('express').Router();
+let passport = require('passport');
 
 const INSTAGRAM_API_URL = "https://api.instagram.com/v1/";
 var data = {};
@@ -27,10 +28,10 @@ if (data.client_id == null && data.client_secret == null) {
  * GET /api/v1/instagam/photos
  * Get photos from instagram
  */
-router.get("/instagram/photos", function (req, res, next) {
+router.get("/photos", function (req, res, next) {
 	res.send("Welcome to StuckWanYah instagram. I collect peeple's photos from instagram, you vote who's hotter?")
 });
-router.post("/instagram/photos", function(req, res, next){
+router.post("/photos", function(req, res, next){
 	var body = req.body;
 	Photo.findOne({ instagramId: body.user.id }, function(err, existingUser){
 		if (existingUser) {
@@ -52,5 +53,18 @@ router.post("/instagram/photos", function(req, res, next){
 		});
 	});
 });
+
+/**
+ * Instagram Endpoints
+ * @Router /api/v1/instagram/auth
+ */
+router.get('/auth', passport.authenticate('instagram'), function(req, res) {
+	// request will be redirected to Instagram
+});
+
+router.get('/auth/callback', passport.authenticate('instagram'), function(req, res) {
+	res.json(req.user);
+});
+
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const router = require('express').Router();
+let passport = require('passport');
 
 var connectToTwitter = require('../lib/twitterbot');
 // get the app to connect to twitter.
@@ -58,5 +59,17 @@ tweetbot.client.get('search/tweets', { q: 'banana since:2011-07-11', count: 100 
 tweetbot.client.get('followers/ids', { screen_name: 'tolga_tezel' },  function (err, data, response) {
   console.log(data)
 })
+
+/**
+ * Twitter Endpoints
+ * @Router /api/v1/auth/twitter
+ */
+router.get('/auth/twitter', passport.authenticate('twitter'), function(req, res) {
+	// request will be redirected to Twitter
+});
+router.get('/auth/twitter/callback', passport.authenticate('twitter'), function(req, res) {
+	res.json(req.user);
+});
+
 
 module.exports = router;
