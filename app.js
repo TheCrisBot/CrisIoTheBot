@@ -148,10 +148,6 @@ app.get("/", function(req, res) {
   // res.end()
 });
 
-app.get('/test', function (req, res) {
-    console.log("working");
-});
-
 app.get('/notify', function(req, res, next) {
   const notifier = require('node-notifier');
   let {title, message} = req.query;
@@ -183,14 +179,13 @@ app.get('/ip', function (req, res) {
     let url = `http://ip-api.com/json/${query}?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,mobile,query`;
 
     request.get(url)
-        .then((response) => {
-            res.json(JSON.parse(response));
-        })
-        .catch((err) => {
-            console.error("Error occurred: " + err);
-        });
+      .then((response) => {
+          res.json(JSON.parse(response));
+      })
+      .catch((err) => {
+          console.error("Error occurred: " + err);
+      });
 });
-
 
 /**
  * How the api is structured
@@ -212,7 +207,7 @@ app.get('/ip', function (req, res) {
 const router = express.Router();
 app.use('/api', router);
 
-app.use('/api', require('./routes/api'));
+// app.use('/api', require('./routes/api'));
 
 const routes = require('./routes/index');
 
@@ -239,6 +234,5 @@ router.use('/mail', routes.mail);
 // router.use('/iot', routes.iot);
 router.use('/sms', routes.sms);
 router.use('/zoom', routes.zoom);
-// router.use('/webhook', routes.webhook);
 
 module.exports = app;
