@@ -1,4 +1,5 @@
 let express = require("express");
+const request = require('request-promise');
 let bodyParser = require("body-parser");
 let passport = require('passport');
 let FacebookTokenStrategy = require('passport-facebook-token');
@@ -8,6 +9,7 @@ let fs = require('fs-extra');
 let path = require('path');
 let cors = require('cors');
 // let pino = require('pino-http')();
+
 let dt = require('./lib/myfirstmodel');
 let { check_fb_signature, allowCrossDomain, isLoggedIn } = require("./lib/middlewares");
 // let xmlParser = require('./lib/parser');
@@ -37,10 +39,11 @@ app.set('port', PORT);
 // app.set('views', path.join(__dirname + '/views'));
 // Set ejs as the default template
 // app.set('view engine', 'html');
-// app.engine('html', ejs.renderFile);
+// app.engine('html', require('ejs').renderFile);
 // Make the files in the app/ folder available to the world
-// app.use(express.static(path.join(__dirname, 'views')));
-// app.use('/images', express.static(path.join(__dirname, 'client/img')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
+app.use('/images', express.static(path.join(__dirname, 'public/img')));
 
 // Check Facebook Signature
 app.use(express.json({
@@ -110,7 +113,7 @@ app.use(express.urlencoded({ extended: true }))
 /**
  * Serve index page
  */
-app.get("/", function(req, res) {
+app.get("/x", function(req, res) {
   // req.log.info('something')
   // res.redirect('/api');
   res.send("Working");
@@ -148,10 +151,6 @@ app.get("/", function(req, res) {
   // res.end()
 });
 
-app.get('/test', function (req, res) {
-    console.log("working");
-});
-
 app.get('/notify', function(req, res, next) {
   const notifier = require('node-notifier');
   let {title, message} = req.query;
@@ -177,20 +176,18 @@ app.get('/notify', function(req, res, next) {
 
 });
 
-const request = require('request-promise');
 app.get('/ip', function (req, res) {
     let { query } = req.query;
     let url = `http://ip-api.com/json/${query}?fields=status,message,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,isp,org,as,mobile,query`;
 
     request.get(url)
-        .then((response) => {
-            res.json(JSON.parse(response));
-        })
-        .catch((err) => {
-            console.error("Error occurred: " + err);
-        });
+      .then((response) => {
+          res.json(JSON.parse(response));
+      })
+      .catch((err) => {
+          console.error("Error occurred: " + err);
+      });
 });
-
 
 /**
  * How the api is structured
@@ -212,7 +209,9 @@ app.get('/ip', function (req, res) {
 const router = express.Router();
 app.use('/api', router);
 
-app.use('/api', require('./routes/api'));
+router.get('/', (req, res) => {
+  res.send("Working");
+});
 
 const routes = require('./routes/index');
 
@@ -220,7 +219,7 @@ const routes = require('./routes/index');
 router.use('/digicel', routes.digicel);
 router.use('/telikom', routes.telikom);
 router.use('/bmobile', routes.bmobile);
-router.use('/pngx', routes.pngx);
+// router.use('/pngx', routes.pngx);
 router.use('/oauth', routes.oauth);
 router.use('/facebook', routes.facebook);
 router.use('/instagram', routes.instagram);
@@ -239,6 +238,5 @@ router.use('/mail', routes.mail);
 // router.use('/iot', routes.iot);
 router.use('/sms', routes.sms);
 router.use('/zoom', routes.zoom);
-// router.use('/webhook', routes.webhook);
 
 module.exports = app;

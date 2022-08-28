@@ -2,7 +2,7 @@
   "name": "crisbot",
   "version": "0.0.1",
   "description": "Cris.io bot is my personal bot that attends to my facebook page. It also serves as arbitrary medium to my other webapps",
-  "main": "node server.js",
+  "main": "server.js",
   "directories": {
     "lib": "lib"
   },
@@ -16,6 +16,7 @@
     "apiai": "^4.0.3",
     "body-parser": "^1.19.2",
     "boxen": "^6.2.1",
+    "compromise": "^14.5.0",
     "cors": "^2.8.5",
     "dotenv": "latest",
     "events": "^3.3.0",
