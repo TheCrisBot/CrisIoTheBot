@@ -9,7 +9,7 @@ const DIGICEL_ = "";
 /**
  * GET /digicel/
  */
-api.get('/digicel', function(req, res, next) {
+api.get('/', function(req, res, next) {
 	// res.send('Digicel\'s public API is available');
 	// /managePlan/*
 	// /giftPlan/*
@@ -26,7 +26,7 @@ api.get('/digicel', function(req, res, next) {
  * GET /digicel/plans
  * @params msisdn, status{active,activate,deactivate}, planId, countryCode, userGuid
  */
-api.get('/digicel/plans', function(req, res, next) {
+api.get('/plans', function(req, res, next) {
 	const {status, msisdn, subscriptionId, planId, accept} = req.query;
 
 	let options = {
@@ -58,7 +58,7 @@ api.get('/digicel/plans', function(req, res, next) {
 /**
  * GET /digicel/plans/offers
  */
-api.get('/digicel/plans/offers', function(req, res, next) {
+api.get('/plans/offers', function(req, res, next) {
 	request({
 		url: DIGICEL_URL + "/managePlan/activate",
 		method: 'GET'

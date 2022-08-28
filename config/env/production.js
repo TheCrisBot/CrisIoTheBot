@@ -5,7 +5,7 @@
 module.exports = {
 	// MongoDB connection options
 	mongo: {
-		uri: process.env.MONGODB_ADDON_URI
+		uri: process.env.MONGODB_URI
 	},
 	mqtt: {
 		host: process.env.EMQTT_HOST || '127.0.0.1',
